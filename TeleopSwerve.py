@@ -1,5 +1,3 @@
-import math
-
 from wpimath.geometry import Rotation2d, Translation2d
 
 import commands2
@@ -37,15 +35,15 @@ class TeleopSwerve(commands2.Command):
 
         vector = Translation2d(xAxis, yAxis)
 
-        theta = vector.angle();
-        magnitude = math.min(vector.norm(),1);
-        if (magnitude < TeleopSwerve.deadband): magnitude = 0;
-    
+        theta : Rotation2d = vector.angle();
+        magnitude = min(vector.norm(),1) ** 2;
+        if (magnitude <= TeleopSwerve.deadband): magnitude = 0;
 
-        rotation = rAxis * swerve_module_constants.MAX_ANG_SPEED;
-        translation = Translation2d(math.pow(magnitude, 2), theta) * swerve_module_constants.MAX_SPEED * self.multiplier;
+        if (abs(rAxis) <= self.deadband): rAxis = 0    
 
-        swerve.instance().get().Drive(translation, rotation, self.fieldRelative, self.openLoop);
+        rot = rAxis * swerve_module_constants.MAX_ANG_SPEED;
+        #output = Translation2d(magnitude, theta) * swerve_module_constants.MAX_SPEED * self.multiplier;
+        swerve.instance().TeleDrive(vector, rot);
 
     def isFinished(self) -> bool:
         return True

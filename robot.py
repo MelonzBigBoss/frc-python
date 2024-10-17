@@ -2,9 +2,11 @@
 
 import wpilib
 
-import constants 
+import constants
 
-from commands2 import CommandScheduler
+import commands2
+
+from commands2 import CommandScheduler, TimedCommandRobot
 
 from swerve import swerve
 
@@ -12,7 +14,8 @@ from TeleopSwerve import TeleopSwerve
 
 from controls import driverstation
 
-class MyRobot(wpilib.TimedRobot):
+from phoenix6 import hardware
+class MyRobot(commands2.TimedCommandRobot):
 
     def robotInit(self):
         self.powerDistribution = wpilib.PowerDistribution(1, wpilib.PowerDistribution.ModuleType.kRev)
@@ -26,16 +29,13 @@ class MyRobot(wpilib.TimedRobot):
 
         wpilib.RobotController.setEnabled3V3(False)
         wpilib.RobotController.setEnabled5V(True)
-        wpilib.RobotController.setEnabled6V(False)
 
         TeleopSwerve.config(driverstation.leftJoyX, driverstation.leftJoyY, driverstation.rightJoyX, driverstation.deadband)
 
         swerve.instance().setDefaultCommand(TeleopSwerve())
-        wpilib.SmartDashboard.putNumber("hi", 1)
-        wpilib.SmartDashboard.putData(swerve.instance())
 
     def robotPeriodic(self):
-        CommandScheduler.getInstance().run();
+        """function"""
 
     def autonomousInit(self):
         """This function is run once each time the robot enters autonomous mode."""
@@ -59,6 +59,3 @@ class MyRobot(wpilib.TimedRobot):
     def testPeriodic(self):
 
         """This function is called periodically during test mode."""
-
-if __name__ == "__main__":
-    wpilib.run(MyRobot)

@@ -9,7 +9,7 @@ class driverstation:
     leftJoy = JoystickButton(joysticks, 1)
     rightJoy = JoystickButton(joysticks, 2)
     leftJoyY = lambda: -driverstation.joysticks.getRawAxis(1)
-    leftJoyX = lambda: driverstation.joysticks.getRawAxis(0)
+    leftJoyX = lambda: -driverstation.joysticks.getRawAxis(0)
     rightJoyX = lambda: -driverstation.joysticks.getRawAxis(2)
     shoot = JoystickButton(panelA, 1)
     amp = JoystickButton(panelA, 2)
@@ -29,7 +29,7 @@ class driverstation:
     gyro =  JoystickButton(panelB, 7)
     leftest =  JoystickButton(panelB, 8)
 
-    deadband = 0.03
+    deadband = 0.05
 
 class handheld:
     controller = CommandXboxController(5)
